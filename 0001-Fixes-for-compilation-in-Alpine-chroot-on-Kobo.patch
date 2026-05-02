@@ -1,10 +1,10 @@
-From 9d1c4ceda27268decf039909cd31700b061cf209 Mon Sep 17 00:00:00 2001
+From cc9a20c8e46bad41172f642bab0c15cb6e26dd9e Mon Sep 17 00:00:00 2001
 From: Kintsugi Computer <kintsugi.computer@protonmail.com>
-Date: Sat, 2 May 2026 07:27:27 +0000
+Date: Sat, 2 May 2026 14:05:37 +0000
 Subject: [PATCH] Fixes for compilation in Alpine chroot on Kobo
 
 ---
- koboplatformplugin.pro      |  31 +-
+ koboplatformplugin.pro      |  32 +-
  qrc_Resources.cpp           | 636 ++++++++++++++++++++++++++++++++++++
  src/kobofbscreen.cpp        |   2 +-
  src/kobofbscreen.h          |   2 +-
@@ -13,13 +13,13 @@ Subject: [PATCH] Fixes for compilation in Alpine chroot on Kobo
  src/mxcfb-kobo.h            | 443 +++++++++++++++++++++++++
  src/qevdevtouchdata.cpp     |   2 +-
  src/qevdevtouchdata2.cpp    |   4 +-
- 9 files changed, 1090 insertions(+), 35 deletions(-)
+ 9 files changed, 1091 insertions(+), 35 deletions(-)
  create mode 100644 qrc_Resources.cpp
  create mode 100644 src/koboplatformplugin.json
  create mode 100644 src/mxcfb-kobo.h
 
 diff --git a/koboplatformplugin.pro b/koboplatformplugin.pro
-index b0be5fd..885f38c 100644
+index b0be5fd..d1a1369 100644
 --- a/koboplatformplugin.pro
 +++ b/koboplatformplugin.pro
 @@ -1,14 +1,13 @@
@@ -39,10 +39,11 @@ index b0be5fd..885f38c 100644
  
  QMAKE_RPATHDIR += ../../lib
  
-@@ -20,32 +19,6 @@ QT +=  widgets \
+@@ -19,32 +18,7 @@ QT +=  widgets \
+ 
  
  INCLUDEPATH += $$PWD/src
- 
+-
 -# FBINK
 -DEFINES += FBINK_FOR_KOBO
 -FBInkBuildEvent.input = $$PWD/FBink/*.c $$PWD/FBink/*.h
@@ -68,10 +69,10 @@ index b0be5fd..885f38c 100644
 -    LIBS += -L$$PWD/FBInk/Release -l:libfbink.a
 -}
 -
--
++LIBS += -lfbink -li2c 
+ 
  SOURCES = src/main.cpp \
            src/dither.cpp \
-           src/kobobuttonintegration.cpp \
 diff --git a/qrc_Resources.cpp b/qrc_Resources.cpp
 new file mode 100644
 index 0000000..25e3fe2
