@@ -1,6 +1,9 @@
 # Kobo QT5 Platform Plugin
 
-Andreas Schaarschmidt's Qt5 platform plugin packaged into an APK for an Alpine chroot on Kobo eReaders.
+Rain92's Qt5 platform plugin packaged into an APK for an Alpine chroot on Kobo eReaders.
+
+Note: Although this compiles and the plugin is loaded, this is not operational. 
+It blanks the screen immediately.
 
 ## Description
 
